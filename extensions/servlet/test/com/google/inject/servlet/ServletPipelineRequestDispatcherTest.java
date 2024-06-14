@@ -55,16 +55,16 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
   private static final Key<HttpServlet> HTTP_SERLVET_KEY = Key.get(HttpServlet.class);
   private static final String A_KEY = "thinglyDEgintly" + new Date() + UUID.randomUUID();
   private static final String A_VALUE =
-          ServletPipelineRequestDispatcherTest.class.toString() + new Date() + UUID.randomUUID();
+      ServletPipelineRequestDispatcherTest.class.toString() + new Date() + UUID.randomUUID();
 
   public final void testIncludeManagedServlet() throws IOException, ServletException {
     String pattern = "blah.html";
     final ServletDefinition servletDefinition =
-            new ServletDefinition(
-                    Key.get(HttpServlet.class),
-                    UriPatternType.get(UriPatternType.SERVLET, pattern),
-                    new HashMap<String, String>(),
-                    null);
+        new ServletDefinition(
+            Key.get(HttpServlet.class),
+            UriPatternType.get(UriPatternType.SERVLET, pattern),
+            new HashMap<String, String>(),
+            null);
 
     final HttpServletRequest requestMock = mock(HttpServletRequest.class);
 
@@ -72,25 +72,25 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
 
     final boolean[] run = new boolean[1];
     final HttpServlet mockServlet =
-            new HttpServlet() {
-              @Override
-              protected void service(
-                      HttpServletRequest request, HttpServletResponse httpServletResponse)
-                      throws ServletException, IOException {
-                run[0] = true;
+        new HttpServlet() {
+          @Override
+          protected void service(
+              HttpServletRequest request, HttpServletResponse httpServletResponse)
+              throws ServletException, IOException {
+            run[0] = true;
 
-                final Object o = request.getAttribute(A_KEY);
-                assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
-              }
-            };
+            final Object o = request.getAttribute(A_KEY);
+            assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
+          }
+        };
 
     final Injector injector = creatMockInjector(servletDefinition, mockServlet);
-
+    
     // Have to init the Servlet before we can dispatch to it.
     servletDefinition.init(null, injector, Sets.<HttpServlet>newIdentityHashSet());
 
     final RequestDispatcher dispatcher =
-            new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
+        new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
 
     assertNotNull(dispatcher);
     dispatcher.include(requestMock, mock(HttpServletResponse.class));
@@ -104,11 +104,11 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
   public final void testForwardToManagedServlet() throws IOException, ServletException {
     String pattern = "blah.html";
     final ServletDefinition servletDefinition =
-            new ServletDefinition(
-                    Key.get(HttpServlet.class),
-                    UriPatternType.get(UriPatternType.SERVLET, pattern),
-                    new HashMap<String, String>(),
-                    null);
+        new ServletDefinition(
+            Key.get(HttpServlet.class),
+            UriPatternType.get(UriPatternType.SERVLET, pattern),
+            new HashMap<String, String>(),
+            null);
 
     final HttpServletRequest requestMock = mock(HttpServletRequest.class);
     final HttpServletResponse mockResponse = mock(HttpServletResponse.class);
@@ -119,25 +119,25 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
 
     final List<String> paths = new ArrayList<>();
     final HttpServlet mockServlet =
-            new HttpServlet() {
-              @Override
-              protected void service(
-                      HttpServletRequest request, HttpServletResponse httpServletResponse)
-                      throws ServletException, IOException {
-                paths.add(request.getRequestURI());
+        new HttpServlet() {
+          @Override
+          protected void service(
+              HttpServletRequest request, HttpServletResponse httpServletResponse)
+              throws ServletException, IOException {
+            paths.add(request.getRequestURI());
 
-                final Object o = request.getAttribute(A_KEY);
-                assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
-              }
-            };
+            final Object o = request.getAttribute(A_KEY);
+            assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
+          }
+        };
 
     final Injector injector = creatMockInjector(servletDefinition, mockServlet);
-
+    
     // Have to init the Servlet before we can dispatch to it.
     servletDefinition.init(null, injector, Sets.<HttpServlet>newIdentityHashSet());
 
     final RequestDispatcher dispatcher =
-            new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
+        new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
 
     assertNotNull(dispatcher);
     dispatcher.forward(requestMock, mockResponse);
@@ -150,7 +150,7 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
   }
 
   public final void testForwardToManagedServletFailureOnCommittedBuffer()
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     IllegalStateException expected = null;
     try {
       forwardToManagedServletFailureOnCommittedBuffer();
@@ -162,14 +162,14 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
   }
 
   public final void forwardToManagedServletFailureOnCommittedBuffer()
-          throws IOException, ServletException {
+      throws IOException, ServletException {
     String pattern = "blah.html";
     final ServletDefinition servletDefinition =
-            new ServletDefinition(
-                    Key.get(HttpServlet.class),
-                    UriPatternType.get(UriPatternType.SERVLET, pattern),
-                    new HashMap<String, String>(),
-                    null);
+        new ServletDefinition(
+            Key.get(HttpServlet.class),
+            UriPatternType.get(UriPatternType.SERVLET, pattern),
+            new HashMap<String, String>(),
+            null);
 
     final HttpServletRequest mockRequest = mock(HttpServletRequest.class);
     final HttpServletResponse mockResponse = mock(HttpServletResponse.class);
@@ -177,23 +177,23 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
     when(mockResponse.isCommitted()).thenReturn(true);
 
     final HttpServlet mockServlet =
-            new HttpServlet() {
-              @Override
-              protected void service(
-                      HttpServletRequest request, HttpServletResponse httpServletResponse)
-                      throws ServletException, IOException {
+        new HttpServlet() {
+          @Override
+          protected void service(
+              HttpServletRequest request, HttpServletResponse httpServletResponse)
+              throws ServletException, IOException {
 
-                final Object o = request.getAttribute(A_KEY);
-                assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
-              }
-            };
+            final Object o = request.getAttribute(A_KEY);
+            assertEquals("Wrong attrib returned - " + o, A_VALUE, o);
+          }
+        };
 
     final Injector injector = creatMockInjector(servletDefinition, mockServlet);
     // Have to init the Servlet before we can dispatch to it.
     servletDefinition.init(null, injector, Sets.<HttpServlet>newIdentityHashSet());
 
     final RequestDispatcher dispatcher =
-            new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
+        new ManagedServletPipeline(injector).getRequestDispatcher(pattern);
 
     assertNotNull(dispatcher);
 
