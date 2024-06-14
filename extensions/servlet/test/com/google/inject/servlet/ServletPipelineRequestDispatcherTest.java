@@ -67,7 +67,6 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
             null);
 
     final HttpServletRequest requestMock = mock(HttpServletRequest.class);
-
     when(requestMock.getAttribute(A_KEY)).thenReturn(A_VALUE);
 
     final boolean[] run = new boolean[1];
@@ -84,8 +83,7 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
           }
         };
 
-    final Injector injector = creatMockInjector(servletDefinition, mockServlet);
-    
+    final Injector injector = creatMockInjector(servletDefinition, mockServlet);    
     // Have to init the Servlet before we can dispatch to it.
     servletDefinition.init(null, injector, Sets.<HttpServlet>newIdentityHashSet());
 
@@ -131,8 +129,7 @@ public class ServletPipelineRequestDispatcherTest extends TestCase {
           }
         };
 
-    final Injector injector = creatMockInjector(servletDefinition, mockServlet);
-    
+    final Injector injector = creatMockInjector(servletDefinition, mockServlet);    
     // Have to init the Servlet before we can dispatch to it.
     servletDefinition.init(null, injector, Sets.<HttpServlet>newIdentityHashSet());
 
